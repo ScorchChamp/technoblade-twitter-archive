@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type='text/css' href="style.css">
+</head>
+
+<body>
+    <div id="container" class="container">
+        <h1>Technoblade never dies</h1>
+        <script>
+            formatToDiv = (name, value) => {
+                let element = document.createElement("div");
+                element.className = name;
+                if (name === "") {
+                    element.className = "text";
+                } else {
+                    name += ": "
+                }
+                element.innerHTML = `${name} ${value}`;
+                return element;
+            }
+            fetch("results.json")
+                .then(response => response.json())
+                .then(arr => {
+                    // arr = arr.slice(0, 10);
+                    for (var i = 0; i < arr.length; i++) {
+                        var obj = arr[i];
+                        let element = document.createElement("div");
+                        element.className = "post";
+                        element.appendChild(formatToDiv("", obj.full_text));
+                        element.appendChild(formatToDiv("Date", new Date(obj.created_at*1000)));
+                        element.appendChild(formatToDiv("Bookmarks", obj.bookmark_count));
+                        element.appendChild(formatToDiv("Favorites", obj.favorite_count));
+                        element.appendChild(formatToDiv("Retweets", obj.retweet_count));
+                        element.appendChild(formatToDiv("Replies", obj.reply_count));
+                        element.appendChild(formatToDiv("Quotes", obj.quote_count));
+                        document.getElementById("container").appendChild(element);
+                    }
+                })
+        </script>
+    </div>
+</body>
